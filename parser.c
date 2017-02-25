@@ -85,6 +85,9 @@ int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
     while(token != ENDOFFILE)
     {
         ins++;
+        
+        // dyadic instaructions
+        
         if(token == ADD)
         {
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING )
@@ -565,7 +568,6 @@ int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
             }
             else if(token == AT)
             {
-                
                 token = TSStep(ts);
                     if(isGPRegister(token))
                     {
@@ -680,7 +682,6 @@ int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
             }
             else if(token == AT)
             {
-                
                 token = TSStep(ts);
                     if(isGPRegister(token))
                     {
@@ -810,6 +811,25 @@ int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
                 return 0;
             }
         }
+        
+        // monadic instructions
+        
+        // 0 operand instructions
+        
+        else if(token == HLT)
+        {
+            OSInsert(os,HLT0,TSToken(ts).name);
+        }
+        else if(token == RET)
+        {
+            OSInsert(os,RET0,TSToken(ts).name);
+        }
+        else if(token == MSF)
+        {
+            OSInsert(os,MSF0,TSToken(ts).name);
+        }
+        
+        token = TSStep(ts);
     }
     
     return 0;
