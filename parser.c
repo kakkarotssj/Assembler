@@ -518,6 +518,236 @@ int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
                 return 0;
             }
         }
+        else if(token == STB)
+        {
+            if(TSLA(ts,1) == STRING && TSLA(ts,2) == COMMA && ( isGPRegister(TSLA(ts,3)) || isSPRegister(TSLA(ts,3))))
+                OSInsert(os,STB0,TSToken(ts).name);
+            else if(TSLA(ts,1) == AT && ( isGPRegister(TSLA(ts,2)) || isSPRegister(TSLA(ts,2))) && TSLA(ts,3) == COMMA && ( isGPRegister(TSLA(ts,4)) || isSPRegister(TSLA(ts,4))) )
+                OSInsert(os,STB1,TSToken(ts).name);
+            else
+                p->m_errorIns = ins;
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    token = TSStep(ts);
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                    if(token == COMMA)
+                    {
+                        token = TSStep(ts);
+                        if(isGPRegister(token))
+                        {
+                            OSInsert(os,OTForReg(token),TSToken(ts).name);
+                        }
+                        else if(isSPRegister(token))
+                        {
+                            OSInsert(os,OTForReg(token),TSToken(ts).name);
+                        }
+                        else
+                        {
+                            createParserError(p,TSToken(ts));
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                        createParserError(p,TSToken(ts));
+                        return 0;
+                    }
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else if(token == AT)
+            {
+                
+                token = TSStep(ts);
+                    if(isGPRegister(token))
+                    {
+                        OSInsert(os,OTForReg(token),TSToken(ts).name);
+                        token = TSStep(ts);
+                        if(token == COMMA)
+                        {
+                            token = TSStep(ts);
+                            if(isGPRegister(token))
+                            {
+                                OSInsert(os,OTForReg(token),TSToken(ts).name);
+                            }
+                            else if(isSPRegister(token))
+                            {
+                                OSInsert(os,OTForReg(token),TSToken(ts).name);
+                            }
+                            else
+                            {
+                                createParserError(p,TSToken(ts));
+                                return 0;
+                            }
+                        }
+                        else
+                        {
+                            createParserError(p,TSToken(ts));
+                            return 0;
+                        }
+                    }
+                    else if(isSPRegister(token))
+                    {
+                        OSInsert(os,OTForReg(token),TSToken(ts).name);
+                        token = TSStep(ts);
+                        if(token == COMMA)
+                        {
+                            token = TSStep(ts);
+                            if(isGPRegister(token))
+                            {
+                                OSInsert(os,OTForReg(token),TSToken(ts).name);
+                            }
+                            else if(isSPRegister(token))
+                            {
+                                OSInsert(os,OTForReg(token),TSToken(ts).name);
+                            }
+                            else
+                            {
+                                createParserError(p,TSToken(ts));
+                                return 0;
+                            }
+                        }
+                        else
+                        {
+                            createParserError(p,TSToken(ts));
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                        createParserError(p,TSToken(ts));
+                        return 0;
+                    }
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        else if(token == STW)
+        {
+            if(TSLA(ts,1) == STRING && TSLA(ts,2) == COMMA && ( isGPRegister(TSLA(ts,3)) || isSPRegister(TSLA(ts,3))))
+                OSInsert(os,STW0,TSToken(ts).name);
+            else if(TSLA(ts,1) == AT && ( isGPRegister(TSLA(ts,2)) || isSPRegister(TSLA(ts,2))) && TSLA(ts,3) == COMMA && ( isGPRegister(TSLA(ts,4)) || isSPRegister(TSLA(ts,4))) )
+                OSInsert(os,STW1,TSToken(ts).name);
+            else
+                p->m_errorIns = ins;
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    token = TSStep(ts);
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                    if(token == COMMA)
+                    {
+                        token = TSStep(ts);
+                        if(isGPRegister(token))
+                        {
+                            OSInsert(os,OTForReg(token),TSToken(ts).name);
+                        }
+                        else if(isSPRegister(token))
+                        {
+                            OSInsert(os,OTForReg(token),TSToken(ts).name);
+                        }
+                        else
+                        {
+                            createParserError(p,TSToken(ts));
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                        createParserError(p,TSToken(ts));
+                        return 0;
+                    }
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else if(token == AT)
+            {
+                
+                token = TSStep(ts);
+                    if(isGPRegister(token))
+                    {
+                        OSInsert(os,OTForReg(token),TSToken(ts).name);
+                        token = TSStep(ts);
+                        if(token == COMMA)
+                        {
+                            token = TSStep(ts);
+                            if(isGPRegister(token))
+                            {
+                                OSInsert(os,OTForReg(token),TSToken(ts).name);
+                            }
+                            else if(isSPRegister(token))
+                            {
+                                OSInsert(os,OTForReg(token),TSToken(ts).name);
+                            }
+                            else
+                            {
+                                createParserError(p,TSToken(ts));
+                                return 0;
+                            }
+                        }
+                        else
+                        {
+                            createParserError(p,TSToken(ts));
+                            return 0;
+                        }
+                    }
+                    else if(isSPRegister(token))
+                    {
+                        OSInsert(os,OTForReg(token),TSToken(ts).name);
+                        token = TSStep(ts);
+                        if(token == COMMA)
+                        {
+                            token = TSStep(ts);
+                            if(isGPRegister(token))
+                            {
+                                OSInsert(os,OTForReg(token),TSToken(ts).name);
+                            }
+                            else if(isSPRegister(token))
+                            {
+                                OSInsert(os,OTForReg(token),TSToken(ts).name);
+                            }
+                            else
+                            {
+                                createParserError(p,TSToken(ts));
+                                return 0;
+                            }
+                        }
+                        else
+                        {
+                            createParserError(p,TSToken(ts));
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                        createParserError(p,TSToken(ts));
+                        return 0;
+                    }
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
         else if(token == SUB)
         {
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING)
