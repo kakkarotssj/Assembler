@@ -36,6 +36,7 @@ typedef enum TokenType
     R0,
     R1,
     R2,
+    R3,
     R4,
     R5,
     R6,
@@ -48,22 +49,15 @@ typedef enum TokenType
     R13,
     R14,
     R15,
-    PC,
-    IR,
-    MAR,
-    MDR,
     CLK,
     MKY,
-    SP,
     FLG,
     
     // extras
     AT,
     COMMA,
     HASH,
-    LABEL,
     STRING,
-    NEXT,
     INVALID
 } TokenType;
 

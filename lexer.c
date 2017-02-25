@@ -27,7 +27,7 @@ Token lexerNextTokenKind(Lexer* lex)
     t.kind = INVALID;
     char *it = &(lex->m_contents[lex->m_currPos]);
     
-    if(*it == '\n')
+    while(*it == '\n')
     {
         it = it+1;
         lex->m_line++;
@@ -37,7 +37,7 @@ Token lexerNextTokenKind(Lexer* lex)
             return t;
     }
     
-    if(*it == ' ')
+    while(*it == ' ')
     {
         it = it+1;
         lex->m_currPos++;
@@ -49,7 +49,7 @@ Token lexerNextTokenKind(Lexer* lex)
     long lineno = lex->m_line;
     long pos = lex->m_pos;
     
-    if(lex->m_currPos + 2 < lex->m_contentSize)
+    if(lex->m_currPos + 2 < lex->m_contentSize && t.kind == INVALID)
     {
         // Dyadic Operations
         if(*it == 'A'&& *(it+1) == 'D' && *(it+2) == 'D')
@@ -319,24 +319,6 @@ Token lexerNextTokenKind(Lexer* lex)
             strcpy(t.name,"R15");
         }
         
-        else if(*it == 'M' && *(it+1) == 'D' && *(it+2) == 'R')
-        {
-            t.kind = MDR;
-            t.start = pos;
-            t.end = t.start + 2;
-            t.lineno = lineno;
-            strcpy(t.name,"MDR");
-        }
-        
-        else if(*it == 'M' && *(it+1) == 'A' && *(it+2) == 'R')
-        {
-            t.kind = MAR;
-            t.start = pos;
-            t.end = t.start + 2;
-            t.lineno = lineno;
-            strcpy(t.name,"MAR");
-        }
-        
         else if(*it == 'C' && *(it+1) == 'L' && *(it+2) == 'K')
         {
             t.kind = CLK;
@@ -366,7 +348,154 @@ Token lexerNextTokenKind(Lexer* lex)
     
     }
     
+    if(lex->m_currPos + 1 < lex->m_contentSize && t.kind == INVALID)
+    {
+        // registers
+        
+        if(*it == 'R' && *(it+1) == '0')
+        {
+            t.kind = R0;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R0");
+        }
+        
+        else if(*it == 'R' && *(it+1) == '1')
+        {
+            t.kind = R1;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R1");
+        }
+        
+        else if(*it == 'R' && *(it+1) == '2')
+        {
+            t.kind = R2;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R2");
+        }
+        
+        else if(*it == 'R' && *(it+1) == '3')
+        {
+            t.kind = R3;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R3");
+        }
+        
+         else if(*it == 'R' && *(it+1) == '4')
+        {
+            t.kind = R4;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R4");
+        }
+        
+        else if(*it == 'R' && *(it+1) == '5')
+        {
+            t.kind = R5;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R5");
+        }
+        
+        else if(*it == 'R' && *(it+1) == '6')
+        {
+            t.kind = R6;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R6");
+        }
+        
+         else if(*it == 'R' && *(it+1) == '7')
+        {
+            t.kind = R7;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R7");
+        }
+        
+        else if(*it == 'R' && *(it+1) == '8')
+        {
+            t.kind = R8;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R8");
+        }
+        
+        else if(*it == 'R' && *(it+1) == '9')
+        {
+            t.kind = R9;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"R9");
+        }
+        
+    }
     
+    if(lex->m_currPos < lex->m_contentSize && t.kind == INVALID)
+    {
+        if(*it == '#')
+        {
+            t.kind = HASH;
+            t.start = pos;
+            t.end = t.start + 1;
+            t.lineno = lineno;
+            strcpy(t.name,"HASH");
+        }
+        
+        else if(*it == '@')
+        {
+            t.kind = AT;
+            t.start = pos;
+            t.end = t.start;
+            t.lineno = lineno;
+            strcpy(t.name,"@");
+        }
+        
+        else if(*it == ',')
+        {
+            t.kind = COMMA;
+            t.start = pos;
+            t.end = t.start;
+            t.lineno = lineno;
+            strcpy(t.name,",");
+        }
+    }
+    
+    if(t.kind == INVALID)
+    {
+        int counter = 0;
+        char ch[10];
+        
+        t.start = pos;
+        while(*it != ' ' || *it != '\n' || *it != '\0')
+        {
+            if(counter == 9)
+                break;
+            ch[counter++] = *it;
+            it = it+1;
+            pos++;
+        }
+        
+        ch[counter] = '\0';
+        
+        t.kind = STRING;
+        t.end = t.start + counter-1;
+        t.lineno = lineno;
+        strcpy(t.name,ch);
+    }
     
     lex->m_pos = pos;
     lex->m_line = lineno;
