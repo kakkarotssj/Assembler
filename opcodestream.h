@@ -26,9 +26,8 @@ typedef struct OpcodeStream
 } OpcodeStream;
 
 void OSInsert(OpcodeStream* os, OpcodeType opt);
-OpcodeType TSLA(OpcodeStream* ts, int i);
-OpcodeType TSNext(OpcodeStream* ts);
-long TSIndex(OpcodeStream* ts);
+OpcodeType OSNext(OpcodeStream* os);
+int OSHasNext(OpcodeStream* os);
 
 
 #endif
