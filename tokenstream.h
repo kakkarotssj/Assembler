@@ -5,7 +5,7 @@
 
 typedef struct Token
 {
-    long kind;
+    TokenType kind;
     long start;
     long end;
 } Token;
@@ -19,14 +19,18 @@ typedef struct ListNode
 
 typedef struct TokenStream
 {
-    ListNode* m_node;
+    ListNode* m_start;
+    ListNode* m_end;
+    ListNode* m_indexNode;
     long m_index;
     long m_size;
 } TokenStream;
 
+TokenStream* TSCreate();
 void TSInsert(TokenStream* ts, Token token);
 TokenType TSLA(TokenStream* ts, int i);
 TokenType TSNext(TokenStream* ts);
 long TSIndex(TokenStream* ts);
+void TSDestroy(TokenStream* ts);
 
 #endif
