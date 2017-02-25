@@ -50,13 +50,15 @@ typedef enum OpcodeType
 typedef struct OpcodeNode
 {
     OpcodeType m_opcode;
-    struct ListNode* m_next;
-    struct ListNode* m_prev;
+    struct OpcodeNode* m_next;
+    struct OpcodeNode* m_prev;
 } OpcodeNode;
 
 typedef struct OpcodeStream
 {
     OpcodeNode* m_node;
+    OpcodeNode* m_end;
+    OpcodeNode* m_start;
     long m_index;
 } OpcodeStream;
 
@@ -64,6 +66,7 @@ OpcodeStream* OSCreate();
 void OSInsert(OpcodeStream* os, OpcodeType opt);
 void OSStep(OpcodeStream* os);
 int OSHasNext(OpcodeStream* os);
+void OSClear(OpcodeStream* os);
 void OSDestroy(OpcodeStream* os);
 
 #endif
