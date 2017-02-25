@@ -59,7 +59,7 @@ Token lexerNextTokenKind(Lexer* lex)
     
     long lineno = lex->m_line;
     long pos = lex->m_pos;
-    
+        
     if(lex->m_currPos + 2 < lex->m_contentSize && t.kind == ENDOFFILE)
     {
         // Dyadic Operations
@@ -67,7 +67,7 @@ Token lexerNextTokenKind(Lexer* lex)
         {
             t.kind = ADD;
             t.start = pos;
-            t.end = t.start + 3;
+            t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"ADD");
         }
@@ -112,7 +112,7 @@ Token lexerNextTokenKind(Lexer* lex)
         {
             t.kind = MOV;
             t.start = pos;
-            t.end = t.start + 3;
+            t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"MOV");
         }
@@ -159,7 +159,7 @@ Token lexerNextTokenKind(Lexer* lex)
         {
             t.kind = CAL;
             t.start = pos;
-            t.end = t.start + 3;
+            t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"CAL");
         }
@@ -204,7 +204,7 @@ Token lexerNextTokenKind(Lexer* lex)
         {
             t.kind = JNE;
             t.start = pos;
-            t.end = t.start + 3;
+            t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"JNE");
         }
