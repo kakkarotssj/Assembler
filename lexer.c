@@ -24,8 +24,11 @@ void lexerClose(Lexer* lex)
 Token lexerNextTokenKind(Lexer* lex)
 {
     Token t;
-    t.kind = INVALID;
+    t.kind = ENDOFFILE;
     char *it = &(lex->m_contents[lex->m_currPos]);
+    
+    if(*it == '\0')
+        return t;
     
     while(*it == '\n')
     {
@@ -49,7 +52,7 @@ Token lexerNextTokenKind(Lexer* lex)
     long lineno = lex->m_line;
     long pos = lex->m_pos;
     
-    if(lex->m_currPos + 2 < lex->m_contentSize && t.kind == INVALID)
+    if(lex->m_currPos + 2 < lex->m_contentSize && t.kind == ENDOFFILE)
     {
         // Dyadic Operations
         if(*it == 'A'&& *(it+1) == 'D' && *(it+2) == 'D')
@@ -348,7 +351,7 @@ Token lexerNextTokenKind(Lexer* lex)
     
     }
     
-    if(lex->m_currPos + 1 < lex->m_contentSize && t.kind == INVALID)
+    if(lex->m_currPos + 1 < lex->m_contentSize && t.kind == ENDOFFILE)
     {
         // registers
         
@@ -444,7 +447,7 @@ Token lexerNextTokenKind(Lexer* lex)
         
     }
     
-    if(lex->m_currPos < lex->m_contentSize && t.kind == INVALID)
+    if(lex->m_currPos < lex->m_contentSize && t.kind == ENDOFFILE)
     {
         if(*it == '#')
         {
@@ -474,7 +477,7 @@ Token lexerNextTokenKind(Lexer* lex)
         }
     }
     
-    if(t.kind == INVALID)
+    if(t.kind == ENDOFFILE)
     {
         int counter = 0;
         char ch[10];

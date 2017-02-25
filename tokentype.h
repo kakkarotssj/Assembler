@@ -58,7 +58,7 @@ typedef enum TokenType
     COMMA,
     HASH,
     STRING,
-    INVALID
+    ENDOFFILE
 } TokenType;
 
 #endif
