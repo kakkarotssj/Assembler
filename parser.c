@@ -1030,6 +1030,72 @@ int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
                 return 0;
             }
         }
+        else if(token == POP)
+        {
+            if(TSLA(ts,1) == STRING)
+                OSInsert(os,POP0,TSToken(ts).name);
+            else if(isGPRegister(TSLA(ts,1)))
+                OSInsert(os,POP1,TSToken(ts).name);
+            else
+                p->m_errorIns = ins;
+            
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else if(isGPRegister(token))
+            {
+                OSInsert(os,OTForReg(token),TSToken(ts).name);
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        else if(token == PSH)
+        {
+            if(TSLA(ts,1) == STRING)
+                OSInsert(os,PSH0,TSToken(ts).name);
+            else if(isGPRegister(TSLA(ts,1)))
+                OSInsert(os,PSH1,TSToken(ts).name);
+            else
+                p->m_errorIns = ins;
+            
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else if(isGPRegister(token))
+            {
+                OSInsert(os,OTForReg(token),TSToken(ts).name);
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
         
         // 0 operand instructions
         
