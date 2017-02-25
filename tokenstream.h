@@ -9,6 +9,7 @@ typedef struct Token
     char name[10];
     long start;
     long end;
+    long lineno;
 } Token;
 
 typedef struct ListNode

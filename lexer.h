@@ -10,12 +10,14 @@ typedef struct Lexer
 {
     TokenStream* m_tokenStream;
     char* m_contents;
-    int m_currPos;
-    int m_contentSize;
+    long m_currPos;
+    long m_contentSize;
+    long m_line;
+    long m_pos;
 } Lexer;
 
 Lexer* lexerOpen(TokenStream* ts, char* contents);
 void lexerClose(Lexer* lex);
-TokenType lexerNextTokenKind(Lexer* lex);
+Token lexerNextTokenKind(Lexer* lex);
 
 #endif

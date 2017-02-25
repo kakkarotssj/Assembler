@@ -3,7 +3,6 @@
 
 typedef enum TokenType
 {
-    INVALID,
     // dyadic operations
     ADD,
     CMP,
@@ -28,7 +27,7 @@ typedef enum TokenType
     POP,
     PSH,
 
-    // 0 address operations
+    // 0 operand instructions
     HLT,
     MSF,
     RET,
@@ -54,7 +53,7 @@ typedef enum TokenType
     MAR,
     MDR,
     CLK,
-    MKEY,
+    MKY,
     SP,
     FLG,
     
@@ -64,7 +63,8 @@ typedef enum TokenType
     HASH,
     LABEL,
     STRING,
-    NEXT
+    NEXT,
+    INVALID
 } TokenType;
 
 #endif

@@ -1,6 +1,7 @@
 #include "tokenstream.h"
 #include "tokentype.h"
 #include <stdlib.h>
+#include <string.h>
 
 TokenStream* TSCreate()
 {
@@ -21,6 +22,8 @@ void TSInsert(TokenStream* ts, Token token)
         nn->m_token.kind = token.kind;
         nn->m_token.end = token.end;
         nn->m_token.start = token.start;
+        nn->m_token.lineno = token.lineno;
+        strcpy(nn->m_token.name,token.name);
         ts->m_start = nn;
         ts->m_end = nn;
         ts->m_size++;
@@ -34,6 +37,8 @@ void TSInsert(TokenStream* ts, Token token)
         nn->m_token.kind = token.kind;
         nn->m_token.end = token.end;
         nn->m_token.start = token.start;
+        nn->m_token.lineno = token.lineno;
+        strcpy(nn->m_token.name,token.name);
         end->m_next = nn;
         ts->m_end = nn;
         ts->m_size++;
