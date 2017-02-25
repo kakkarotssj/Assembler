@@ -6,6 +6,7 @@
 typedef struct Token
 {
     TokenType kind;
+    char name[10];
     long start;
     long end;
 } Token;
@@ -31,6 +32,7 @@ void TSInsert(TokenStream* ts, Token token);
 TokenType TSLA(TokenStream* ts, int i);
 TokenType TSNext(TokenStream* ts);
 long TSIndex(TokenStream* ts);
+void TSClear(TokenStream* ts);
 void TSDestroy(TokenStream* ts);
 
 #endif

@@ -55,7 +55,7 @@ TokenType TSLA(TokenStream* ts, int i)
             for(;i>0;i++)
             {
                 i--;
-                itr = itr->next;
+                itr = itr->m_next;
                 if(itr == NULL && i>0)
                     return INVALID;
             }
@@ -104,4 +104,10 @@ void TSClear(TokenStream* ts)
     {
         free(itr); 
     }
+}
+
+void TSDestroy(TokenStream* ts)
+{
+    TSClear(ts);
+    free(ts);
 }
