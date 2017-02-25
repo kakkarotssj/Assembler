@@ -11,7 +11,9 @@ typedef enum OpcodeType
     LDW0,
     LDW1,
     STB0,
+    STB1,
     STW0,
+    STW1,
     ADD0,
     ADD1,
     SUB0,
@@ -43,13 +45,43 @@ typedef enum OpcodeType
     // 0 operand instructions
     HLT0,
     RET0,
-    MSF0
+    MSF0,
+    
+    // Registers
+    GPR0,
+    GPR1,
+    GPR2,
+    GPR3,
+    GPR4,
+    GPR5,
+    GPR6,
+    GPR7,
+    GPR8,
+    GPR9,
+    GPR10,
+    GPR11,
+    GPR12,
+    GPR13,
+    GPR14,
+    GPR15,
+    SPCLK,
+    SPMKY,
+    SPFLG,
+    
+    // extra
+    INTEGER,
+    STRINGVAL
     
 } OpcodeType;
 
+typedef struct Opcode{
+    OpcodeType type;
+    char name[10];
+} Opcode;
+
 typedef struct OpcodeNode
 {
-    OpcodeType m_opcode;
+    Opcode* m_opcode;
     struct OpcodeNode* m_next;
     struct OpcodeNode* m_prev;
 } OpcodeNode;
@@ -63,7 +95,7 @@ typedef struct OpcodeStream
 } OpcodeStream;
 
 OpcodeStream* OSCreate();
-void OSInsert(OpcodeStream* os, OpcodeType opt);
+void OSInsert(OpcodeStream* os, OpcodeType opt, char* name);
 void OSStep(OpcodeStream* os);
 int OSHasNext(OpcodeStream* os);
 void OSClear(OpcodeStream* os);

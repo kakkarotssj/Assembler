@@ -1,5 +1,6 @@
 #include "opcodestream.h"
 #include <stdlib.h>
+#include <string.h>
 OpcodeStream* OSCreate()
 {
     OpcodeStream * os = malloc(sizeof(OpcodeStream));
@@ -9,14 +10,17 @@ OpcodeStream* OSCreate()
 }
 
 
-void OSInsert(OpcodeStream* os, OpcodeType opc)
+void OSInsert(OpcodeStream* os, OpcodeType opc, char* name)
 {
     if(os->m_index < 0)
     {
         OpcodeNode* nn = malloc(sizeof(OpcodeNode));
         nn->m_next = NULL;
         nn->m_prev = NULL;
-        nn->m_opcode = opc;
+        Opcode* op = malloc(sizeof(Opcode));
+        op->type = opc;
+        strcpy(op->name,name);
+        nn->m_opcode = op;
         os->m_node = nn;
         os->m_end = nn;
         os->m_start = nn;
@@ -27,7 +31,10 @@ void OSInsert(OpcodeStream* os, OpcodeType opc)
         OpcodeNode* nn = malloc(sizeof(OpcodeNode));
         nn->m_next = NULL;
         nn->m_prev = end;
-        nn->m_opcode = opc;
+        Opcode* op = malloc(sizeof(Opcode));
+        op->type = opc;
+        strcpy(op->name,name);
+        nn->m_opcode = op;
         end->m_next = nn;
         os->m_end = nn;
     }
@@ -55,6 +62,7 @@ void OSClear(OpcodeStream* os)
         return;
     for(;itr!=NULL;itr = itr->m_next)
     {
+        free(itr->m_opcode);
         free(itr); 
     }
 }

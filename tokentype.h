@@ -54,6 +54,7 @@ typedef enum TokenType
     FLG,
     
     // extras
+    START,
     AT,
     COMMA,
     HASH,

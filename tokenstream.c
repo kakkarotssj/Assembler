@@ -74,7 +74,7 @@ TokenType TSLA(TokenStream* ts, int i)
     }
 }
 
-TokenType TSNext(TokenStream* ts)
+TokenType TSStep(TokenStream* ts)
 {
     if(ts->m_index == -1)
     {
@@ -92,9 +92,19 @@ TokenType TSNext(TokenStream* ts)
     return ts->m_indexNode->m_token.kind;
 }
 
+Token TSToken(TokenStream* ts)
+{
+    return ts->m_indexNode->m_token;
+}
+
 long TSIndex(TokenStream* ts)
 {
     return ts->m_index;
+}
+
+long TSSize(TokenStream* ts)
+{
+    return ts->m_size;
 }
 
 void TSClear(TokenStream* ts)
