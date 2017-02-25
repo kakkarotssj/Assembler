@@ -27,8 +27,16 @@ Token lexerNextTokenKind(Lexer* lex)
     t.kind = ENDOFFILE;
     char *it = &(lex->m_contents[lex->m_currPos]);
     
-    if(*it == '\0')
+    if(lex->m_currPos == lex->m_contentSize)
+    {
+        t.kind = INVALID;
         return t;
+    }
+    if(*it == '\0')
+    {
+        lex->m_currPos++;
+        return t;
+    }
     
     while(*it == '\n')
     {
