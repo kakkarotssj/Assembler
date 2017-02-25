@@ -814,6 +814,223 @@ int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
         
         // monadic instructions
         
+        else if(token == CAL)
+        {
+            OSInsert(os,CAL0,TSToken(ts).name);
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        else if(token == DEC)
+        {
+            OSInsert(os,DEC0,TSToken(ts).name);
+            token = TSStep(ts);
+            if(isGPRegister(token))
+            {
+                OSInsert(os,OTForReg(token),TSToken(ts).name);
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        else if(token == INC)
+        {
+            OSInsert(os,INC0,TSToken(ts).name);
+            token = TSStep(ts);
+            if(isGPRegister(token))
+            {
+                OSInsert(os,OTForReg(token),TSToken(ts).name);
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        else if(token == JMP)
+        {
+            if(TSLA(ts,1) == STRING)
+                OSInsert(os,JMP0,TSToken(ts).name);
+            else if(isGPRegister(TSLA(ts,1)))
+                OSInsert(os,JMP1,TSToken(ts).name);
+            else
+                p->m_errorIns = ins;
+            
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else if(isGPRegister(token))
+            {
+                OSInsert(os,OTForReg(token),TSToken(ts).name);
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        else if(token == JEQ)
+        {
+            if(TSLA(ts,1) == STRING)
+                OSInsert(os,JEQ0,TSToken(ts).name);
+            else if(isGPRegister(TSLA(ts,1)))
+                OSInsert(os,JEQ1,TSToken(ts).name);
+            else
+                p->m_errorIns = ins;
+            
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else if(isGPRegister(token))
+            {
+                OSInsert(os,OTForReg(token),TSToken(ts).name);
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        else if(token == JNE)
+        {
+            if(TSLA(ts,1) == STRING)
+                OSInsert(os,JNE0,TSToken(ts).name);
+            else if(isGPRegister(TSLA(ts,1)))
+                OSInsert(os,JNE1,TSToken(ts).name);
+            else
+                p->m_errorIns = ins;
+            
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else if(isGPRegister(token))
+            {
+                OSInsert(os,OTForReg(token),TSToken(ts).name);
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        else if(token == JLT)
+        {
+            if(TSLA(ts,1) == STRING)
+                OSInsert(os,JLT0,TSToken(ts).name);
+            else if(isGPRegister(TSLA(ts,1)))
+                OSInsert(os,JLT1,TSToken(ts).name);
+            else
+                p->m_errorIns = ins;
+            
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else if(isGPRegister(token))
+            {
+                OSInsert(os,OTForReg(token),TSToken(ts).name);
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        else if(token == JGT)
+        {
+            if(TSLA(ts,1) == STRING)
+                OSInsert(os,JGT0,TSToken(ts).name);
+            else if(isGPRegister(TSLA(ts,1)))
+                OSInsert(os,JGT1,TSToken(ts).name);
+            else
+                p->m_errorIns = ins;
+            
+            token = TSStep(ts);
+            if(token == STRING)
+            {
+                if(isInteger(TSToken(ts).name))
+                {
+                    OSInsert(os,INTEGER,TSToken(ts).name);
+                }
+                else
+                {
+                    p->m_errorIns = ins;
+                    createParserError(p,TSToken(ts));
+                    return 0;
+                }
+            }
+            else if(isGPRegister(token))
+            {
+                OSInsert(os,OTForReg(token),TSToken(ts).name);
+            }
+            else
+            {
+                createParserError(p,TSToken(ts));
+                return 0;
+            }
+        }
+        
         // 0 operand instructions
         
         else if(token == HLT)
