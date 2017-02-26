@@ -104,9 +104,9 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         ins++;
         
         // dyadic instructions
-        
         if(token == ADD)
         {
+            printf("Add = %d",TSLA(ts,0));
             if(debugparser())
                 printf("\nChecking Syntax for ADD");
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING )

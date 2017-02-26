@@ -1,5 +1,7 @@
 #include "tokenstream.h"
 #include "tokentype.h"
+
+#include <string.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -27,6 +29,7 @@ void TSInsert(TokenStream* ts, Token token)
         ts->m_start = nn;
         ts->m_end = nn;
         ts->m_size++;
+        ts->m_indexNode;
     }
     else
     {
@@ -51,12 +54,9 @@ TokenType TSLA(TokenStream* ts, int i)
         return INVALID;
     else
     {
-        ListNode* cur = ts->m_indexNode;
-        if(cur == NULL)
+        ListNode* itr = ts->m_indexNode;
+        if(itr != NULL)
         {
-            ListNode* itr = ts->m_start;
-            if(itr == NULL)
-                return INVALID;
             for(;i>0;i--)
             {
                 itr = itr->m_next;
@@ -64,13 +64,11 @@ TokenType TSLA(TokenStream* ts, int i)
                     return INVALID;
             }
             
-            if(itr == NULL)
-                return INVALID;
-            
+            if(itr != NULL)
             return itr->m_token.kind;
-            
         }
     }
+    return INVALID;
 }
 
 Token TSLAToken(TokenStream* ts, int i)

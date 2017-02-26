@@ -1,6 +1,9 @@
 #include "opcodestream.h"
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 OpcodeStream* OSCreate()
 {
     OpcodeStream * os = malloc(sizeof(OpcodeStream));
@@ -14,6 +17,7 @@ void OSInsert(OpcodeStream* os, OpcodeType opc, char* name)
 {
     if(os->m_index < 0)
     {
+        printf("\ninserting first opcode %s",name);
         OpcodeNode* nn = malloc(sizeof(OpcodeNode));
         nn->m_next = NULL;
         nn->m_prev = NULL;
@@ -24,9 +28,11 @@ void OSInsert(OpcodeStream* os, OpcodeType opc, char* name)
         os->m_node = nn;
         os->m_end = nn;
         os->m_start = nn;
+        os->m_index++;
     }
     else
     {
+        printf("\ninserting opcode %s",name);
         OpcodeNode* end = os->m_end;
         OpcodeNode* nn = malloc(sizeof(OpcodeNode));
         nn->m_next = NULL;
@@ -37,6 +43,7 @@ void OSInsert(OpcodeStream* os, OpcodeType opc, char* name)
         nn->m_opcode = op;
         end->m_next = nn;
         os->m_end = nn;
+        os->m_index++;
     }
 }
 

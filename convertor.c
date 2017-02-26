@@ -206,14 +206,14 @@ void *convertOPCodes(OpcodeStream *OS,char* output, int debug)
     convertordebug = debug;
 	if(debugConvertor())
 		printf("\n\n Generating opcode \n");
-
+    
 	int len=0,allot=100;
 	output=(char*)malloc(allot);
     strcpy(output,"");
 	while(OSHasNext(OS))
 	{
 		len=strlen(output)+len;
-		if(len>allot)
+		if(len+16>allot)
 		{
 			allot=allot*2;
 			output=realloc(output,allot);

@@ -68,11 +68,7 @@ int main(int argc, char **argv) {
         return 0;
     }
     
-    printf("\n\n%s\n\n",output);
     
-    destroyParser(pr);
-    
-    free(input);
     
 //     fptr = fopen(argv[2],"w");
 //     if(fptr == NULL)
@@ -84,8 +80,10 @@ int main(int argc, char **argv) {
 //     tempsize = strlen(output);
 //     fwrite(input,1,tempsize,fptr);
 // 	fclose(fptr);
-    
+       
+    free(input);
     free(output);
+    destroyParser(pr); 
     
     return 0;
 }
