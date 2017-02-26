@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+int parserdebug = 1;
+
 int isGPRegister(TokenType t)
 {
     if(t == R0 || t == R1 || t == R2 || t == R3 || t == R4
@@ -79,7 +81,10 @@ int isInteger(char* arr)
 int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
 {
     if (TSSize(ts) == 0)
+    {
         createParserError(p,p->m_errorToken);
+        return 0;
+    }
     TokenType token = TSStep(ts);
     long ins = 0;
     while(token != ENDOFFILE)
@@ -87,7 +92,8 @@ int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
         ins++;
         
         // dyadic instaructions
-        
+        if(token == INVALID)
+            break;
         if(token == ADD)
         {
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING )
@@ -1151,12 +1157,17 @@ void tokenize(Parser* p)
 
 char* parse(Parser* p)
 {
-    char * output;
+    if(parserdebug)
+        printf("\nParsing Start");
+    char * output = malloc(20);
+    strcat(output,"Parse Succesfull");
+    if(parserdebug)
+        printf("\nStarting Tokenizing");
     tokenize(p);
     TokenStream* ts = p->m_lex->m_tokenStream;
     OpcodeStream* os = OSCreate();
     if(!_P_parse_(p,ts,os))
-        return "";
+        return "Parse Eroor";
     
     // convert to bin using opcodeconvertor
     // output = opcodeConvertor(os);
@@ -1168,22 +1179,31 @@ void createParserError(Parser* p, Token t)
     p->m_errorToken = t;
 }
 
-char* parserError(Parser* p,long* line, long* pos)
+char* parserError(Parser* p,long* line, long* pos, long* ins)
 {
     Token tok = p->m_errorToken;
-    if(tok.end == ENDOFFILE)
+    
+    if(tok.end == ENDOFFILE || tok.end == INVALID)
     {
+        *ins = p->m_errorIns;
         *line = tok.lineno;
         *pos = tok.start;   
         return "Empty File";
     }
     char* ch = malloc(20);
-    ch = "";
+    strcpy(ch,"");
     
     strcat(ch,"Syntax Error : ");
     strcat(ch,tok.name);
-    
+    *ins = p->m_errorIns;
     *line = tok.lineno;
     *pos = tok.start;  
     return ch;
+}
+
+int parserHasError(Parser* p)
+{
+    if(p->m_errorToken.end != ENDOFFILE)
+        return 1;
+    return 0;
 }

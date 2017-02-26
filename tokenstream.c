@@ -76,16 +76,16 @@ TokenType TSLA(TokenStream* ts, int i)
 
 TokenType TSStep(TokenStream* ts)
 {
+    
+    if(ts->m_index == ts->m_size-1)
+        return INVALID;
     if(ts->m_index == -1)
     {
         ts->m_index++;
         ts->m_indexNode = ts->m_start;
     }
     else
-    {
-        if(ts->m_index == ts->m_size-1)
-            return INVALID;
-        
+    {        
         ts->m_index++;
         ts->m_indexNode = ts->m_indexNode->m_next;
     }

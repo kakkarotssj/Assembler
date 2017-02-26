@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+int lexerdebug = 1;
+
 Lexer* lexerOpen(TokenStream* ts, char* contents)
 {
     Lexer* lex = malloc(sizeof(Lexer));
@@ -12,6 +14,8 @@ Lexer* lexerOpen(TokenStream* ts, char* contents)
     lex->m_line = 0;
     lex->m_pos = 0;
     lex->m_contentSize = strlen(contents);
+    if(lexerdebug)
+        printf("\nLexer Content Size = %ld",lex->m_contentSize);
     return lex;
 }
 
@@ -23,12 +27,16 @@ void lexerClose(Lexer* lex)
 
 Token lexerNextTokenKind(Lexer* lex)
 {
+    if(lexerdebug)
+        printf("\nlexerNextTokenKind() : ");
     Token t;
     t.kind = ENDOFFILE;
     char *it = &(lex->m_contents[lex->m_currPos]);
     
-    if(lex->m_currPos == lex->m_contentSize)
+    if(lex->m_currPos >= lex->m_contentSize)
     {
+        if(lexerdebug)
+        printf("\nEnd of File : ");
         t.kind = INVALID;
         return t;
     }
@@ -43,7 +51,7 @@ Token lexerNextTokenKind(Lexer* lex)
         it = it+1;
         lex->m_line++;
         lex->m_currPos++;
-        lex->m_pos = 0;
+        lex->m_pos = 1;
         if(lex->m_currPos > lex->m_contentSize)
             return t;
     }
@@ -70,6 +78,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"ADD");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'C' && *(it+1) == 'M' && *(it+2) == 'P')
@@ -79,6 +89,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"CMP");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'D' && *(it+1) == 'I' && *(it+2) == 'V')
@@ -88,6 +100,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"DIV");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'L' && *(it+1) == 'D' && *(it+2) == 'B')
@@ -97,6 +111,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"LDB");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'L' && *(it+1) == 'D' && *(it+2) == 'W')
@@ -106,6 +122,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"LDW");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'M'&& *(it+1) == 'O' && *(it+2) == 'V')
@@ -115,6 +133,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"MOV");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'M' && *(it+1) == 'U' && *(it+2) == 'L')
@@ -124,6 +144,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"MUL");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'S' && *(it+1) == 'T' && *(it+2) == 'B')
@@ -133,6 +155,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"STB");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'S' && *(it+1) == 'T' && *(it+2) == 'W')
@@ -142,6 +166,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"STW");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'S' && *(it+1) == 'U' && *(it+2) == 'B')
@@ -151,6 +177,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"SUB");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         // monadic operations
@@ -162,6 +190,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"CAL");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'D' && *(it+1) == 'E' && *(it+2) == 'C')
@@ -171,6 +201,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"DEC");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'I' && *(it+1) == 'N' && *(it+2) == 'C')
@@ -180,6 +212,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"INC");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'J' && *(it+1) == 'M' && *(it+2) == 'P')
@@ -189,6 +223,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"JMP");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'J' && *(it+1) == 'E' && *(it+2) == 'Q')
@@ -198,6 +234,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"JEQ");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'J'&& *(it+1) == 'N' && *(it+2) == 'E')
@@ -207,6 +245,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"JNE");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'J' && *(it+1) == 'G' && *(it+2) == 'T')
@@ -216,6 +256,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"JGT");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'J' && *(it+1) == 'L' && *(it+2) == 'T')
@@ -225,6 +267,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"JLT");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'P' && *(it+1) == 'O' && *(it+2) == 'P')
@@ -234,6 +278,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"POP");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'P' && *(it+1) == 'S' && *(it+2) == 'H')
@@ -243,6 +289,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"PSH");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         // 0 operands instructions
@@ -254,6 +302,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"HLT");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'M' && *(it+1) == 'S' && *(it+2) == 'F')
@@ -263,6 +313,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"MSF");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         else if(*it == 'R' && *(it+1) == 'E' && *(it+2) == 'T')
@@ -272,6 +324,8 @@ Token lexerNextTokenKind(Lexer* lex)
             t.end = t.start + 2;
             t.lineno = lineno;
             strcpy(t.name,"RET");
+            if(*(it+3) != '\n' && *(it+3)!= ' ')
+                t.kind = ENDOFFILE;
         }
         
         // Registers
@@ -483,6 +537,7 @@ Token lexerNextTokenKind(Lexer* lex)
             t.lineno = lineno;
             strcpy(t.name,",");
         }
+        
     }
     
     if(t.kind == ENDOFFILE)
@@ -491,7 +546,7 @@ Token lexerNextTokenKind(Lexer* lex)
         char ch[10];
         
         t.start = pos;
-        while(*it != ' ' || *it != '\n' || *it != '\0')
+        while(*it != ' ' && *it != '\n' && *it != '\0' && *it != '@' && *it != '#' && *it!= ',')
         {
             if(counter == 9)
                 break;
@@ -506,10 +561,16 @@ Token lexerNextTokenKind(Lexer* lex)
         t.end = t.start + counter-1;
         t.lineno = lineno;
         strcpy(t.name,ch);
+        pos = pos+counter;
     }
-    
-    lex->m_pos = pos;
+    if(t.kind!=ENDOFFILE)
+        pos = pos + t.end - t.start;
+    lex->m_pos = pos + 1;
     lex->m_line = lineno;
+    lex->m_currPos = lex->m_currPos + t.end - t.start + 1;
+    
+    if(lexerdebug)
+        printf("Lexer Returning %d %d %d",t.kind,t.start,t.end);
     
     return t;
 }
