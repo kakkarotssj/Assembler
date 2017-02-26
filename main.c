@@ -6,7 +6,9 @@
 void help()
 {
     printf("\nAssembler For a 16 Bit ISA");
-    printf("\nUse : assembler path/to/input/file path/to/output/file\n\n");
+    printf("\nUse : assembler path/to/input/file path/to/output/file [OPTIONS]\n");
+    printf("\nOptions");
+    printf("\n-v : verbose output\n");
 }
 
 int main(int argc, char **argv) {
@@ -20,6 +22,20 @@ int main(int argc, char **argv) {
         help();
         return 0;
     }
+    int debug = 0;
+    if(argc == 4 && !strcmp(argv[3],"-v"))
+    {
+        debug = 1;
+    }
+    else
+    {
+        if(argc == 4)
+        {
+            printf("\nOption %s do not exist\n",argv[3]);
+            help();
+        }
+        debug = 0;        
+    }
     
     FILE* fptr = fopen(argv[1],"r");
     if(fptr == NULL)
@@ -28,6 +44,7 @@ int main(int argc, char **argv) {
         help();
         return 0;
     }
+    
     fseek(fptr, 0, SEEK_END);
 	long tempsize = ftell(fptr);
 	fseek(fptr, 0, SEEK_SET);
@@ -36,10 +53,11 @@ int main(int argc, char **argv) {
     fread(input,1,tempsize,fptr);
 	fclose(fptr);
     char* output = NULL;
-    Parser* pr = createParser(input);
+    
+    Parser* pr = createParser(input,debug);
     parseOPCode(pr,output);
-    printf("%s",output);
-    if(parserHasError(pr))
+    
+    if(parserContainsError(pr))
     {
         long lineno = 0;
         long pos = 0;
@@ -49,6 +67,8 @@ int main(int argc, char **argv) {
         printf("\n%s\n",error);
         return 0;
     }
+    
+    printf("\n\n%s\n\n",output);
     
     destroyParser(pr);
     
@@ -66,7 +86,6 @@ int main(int argc, char **argv) {
 // 	fclose(fptr);
     
     free(output);
-    
     
     return 0;
 }

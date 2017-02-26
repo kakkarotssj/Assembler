@@ -57,9 +57,8 @@ TokenType TSLA(TokenStream* ts, int i)
             ListNode* itr = ts->m_start;
             if(itr == NULL)
                 return INVALID;
-            for(;i>0;i++)
+            for(;i>0;i--)
             {
-                i--;
                 itr = itr->m_next;
                 if(itr == NULL && i>0)
                     return INVALID;
@@ -69,6 +68,36 @@ TokenType TSLA(TokenStream* ts, int i)
                 return INVALID;
             
             return itr->m_token.kind;
+            
+        }
+    }
+}
+
+Token TSLAToken(TokenStream* ts, int i)
+{
+    Token t;
+    t.kind = INVALID;
+    if(ts->m_index+i >= ts->m_size)
+        return t;
+    else
+    {
+        ListNode* cur = ts->m_indexNode;
+        if(cur == NULL)
+        {
+            ListNode* itr = ts->m_start;
+            if(itr == NULL)
+                return t;
+            for(;i>0;i--)
+            {
+                itr = itr->m_next;
+                if(itr == NULL && i>0)
+                    return t;
+            }
+            
+            if(itr == NULL)
+                return t;
+            
+            return itr->m_token;
             
         }
     }

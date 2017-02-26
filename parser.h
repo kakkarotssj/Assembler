@@ -14,11 +14,11 @@ typedef struct Parser
     long m_errorIns;
 } Parser;
 
-Parser* createParser(char* contents);
+Parser* createParser(char* contents,int debug);
 void parseOPCode(Parser* p,char* output);
 char* parserError(Parser* p,long* line, long* pos,long* ins);
 void tokenize(Parser* p);
 void createParserError(Parser* p, Token t);
-int parserHasError(Parser* p);
+int parserContainsError(Parser* p);
 void destroyParser(Parser* p);
 #endif

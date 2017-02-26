@@ -31,6 +31,7 @@ typedef struct TokenStream
 TokenStream* TSCreate();
 void TSInsert(TokenStream* ts, Token token);
 TokenType TSLA(TokenStream* ts, int i);
+Token TSLAToken(TokenStream* ts, int i);
 TokenType TSStep(TokenStream* ts);
 Token TSToken(TokenStream* ts);
 long TSIndex(TokenStream* ts);

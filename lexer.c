@@ -4,9 +4,14 @@
 #include <string.h>
 
 int lexerdebug = 0;
-
-Lexer* lexerOpen(TokenStream* ts, char* contents)
+int debuglexer()
 {
+    return lexerdebug;
+}
+
+Lexer* lexerOpen(TokenStream* ts, char* contents, int debug)
+{
+    lexerdebug = debug;
     Lexer* lex = malloc(sizeof(Lexer));
     lex->m_tokenStream = ts;
     lex->m_contents = contents;
@@ -14,8 +19,6 @@ Lexer* lexerOpen(TokenStream* ts, char* contents)
     lex->m_line = 1;
     lex->m_pos = 0;
     lex->m_contentSize = strlen(contents);
-    if(lexerdebug)
-        printf("\nLexer Content Size = %ld",lex->m_contentSize);
     return lex;
 }
 
@@ -27,22 +30,21 @@ void lexerClose(Lexer* lex)
 
 Token lexerNextTokenKind(Lexer* lex)
 {
-    if(lexerdebug)
-        printf("\nlexerNextTokenKind() : ");
     Token t;
     t.kind = INVALID;
     t.start = lex->m_currPos;
     t.end = t.start;
     char *it = &(lex->m_contents[lex->m_currPos]);
     
-    if(lex->m_currPos >= lex->m_contentSize)
+    if(lex->m_currPos > lex->m_contentSize)
     {
-        if(lexerdebug)
         t.kind = INVALID;
         t.start = lex->m_currPos;
         t.end = t.start;
-        if(lexerdebug)
-            printf("Lexer Returning %d %ld %ld",t.kind,t.start,t.end);
+        t.lineno = lex->m_line;
+        strcpy(t.name,"INVALID");
+        if(debuglexer())
+            printf("\nLexer Returning %s %ld %ld",t.name,t.start,t.end);
         return t;
     }
     
@@ -51,29 +53,41 @@ Token lexerNextTokenKind(Lexer* lex)
         t.kind = ENDOFFILE;
         t.start = lex->m_currPos;
         t.end = t.start;
+        t.lineno = lex->m_line;
+        strcpy(t.name,"EOF");
         lex->m_currPos++;
-        if(lexerdebug)
-            printf("Lexer Returning %d %ld %ld",t.kind,t.start,t.end);
+        if(debuglexer())
+            printf("\nLexer Returning %s %ld %ld",t.name,t.start,t.end);
         return t;
     }
     
-    while(*it == '\n')
+    if(*it == '\n')
     {
-        it = it+1;
+        t.kind = NEWLINE;
+        t.start = lex->m_pos;
+        t.end = t.start;
+        t.lineno = lex->m_line;
+        strcpy(t.name,"NEWLINE");
         lex->m_line++;
         lex->m_currPos++;
         lex->m_pos = 0;
-        if(lex->m_currPos == lex->m_contentSize-1-1)
-            break;
+        if(debuglexer())
+            printf("\nLexer Returning %s %ld %ld",t.name,t.start,t.end);
+        return t;
     }
     
-    while(*it == ' ')
+    if(*it == ' ')
     {
-        it = it+1;
+        t.kind = SPACE;
+        t.start = lex->m_pos;
+        t.end = t.start;
+        t.lineno = lex->m_line;
+        strcpy(t.name,"SPACE");
         lex->m_currPos++;
         lex->m_pos++;
-        if(lex->m_currPos == lex->m_contentSize-1)
-            break;
+        if(debuglexer())
+            printf("\nLexer Returning %s %ld %ld",t.name,t.start,t.end);
+        return t;
     }
     
     if(*it == '\0')
@@ -81,8 +95,9 @@ Token lexerNextTokenKind(Lexer* lex)
         t.kind = ENDOFFILE;
         t.start = lex->m_currPos;
         t.end = t.start;
-        if(lexerdebug)
-            printf("Lexer Returning %d %ld %ld",t.kind,t.start,t.end);
+        t.lineno = lex->m_line;
+        if(debuglexer())
+            printf("\nLexer Returning %s %ld %ld",t.name,t.start,t.end);
         lex->m_currPos++;
         return t;
     }
@@ -587,14 +602,14 @@ Token lexerNextTokenKind(Lexer* lex)
         pos = pos+counter;
     }
     
-    if(t.kind!=INVALID)
-        pos = pos + t.end - t.start + 1;
+    
+    pos = pos + t.end - t.start + 1;
     lex->m_pos = pos;
     lex->m_line = lineno;
     lex->m_currPos = lex->m_currPos + t.end - t.start + 1;
     
-    if(lexerdebug)
-        printf("Lexer Returning %d %ld %ld",t.kind,t.start,t.end);
+    if(debuglexer())
+        printf("\nLexer Returning %s %ld %ld",t.name,t.start,t.end);
     
     return t;
 }
