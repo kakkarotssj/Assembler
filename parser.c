@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int parserdebug = 1;
+int parserdebug = 0;
 
 int isGPRegister(TokenType t)
 {
@@ -78,7 +78,7 @@ int isInteger(char* arr)
     return 1;
 }
 
-int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
+int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
 {
     if (TSSize(ts) == 0)
     {
@@ -91,9 +91,8 @@ int _P_parse_(Parser* p,TokenStream* ts,OpcodeStream* os)
     {
         ins++;
         
-        // dyadic instaructions
-        if(token == INVALID)
-            break;
+        // dyadic instructions
+        
         if(token == ADD)
         {
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING )
@@ -1139,7 +1138,15 @@ Parser* createParser(char* contents)
     t.start = 0;
     p->m_errorToken = t;
     
+    p->m_os = OSCreate();
     return p;
+}
+
+void destroyParser(Parser* p)
+{
+    lexerClose(p->m_lex);
+    //OSDestroy(p->m_os);
+    free(p);
 }
 
 void tokenize(Parser* p)
@@ -1155,23 +1162,34 @@ void tokenize(Parser* p)
     while ( tok.kind != INVALID );
 }
 
-char* parse(Parser* p)
+void parseOPCode(Parser* p, char* output)
 {
     if(parserdebug)
         printf("\nParsing Start");
-    char * output = malloc(20);
-    strcat(output,"Parse Succesfull");
-    if(parserdebug)
-        printf("\nStarting Tokenizing");
-    tokenize(p);
+    output = malloc(20);
+    strcpy(output,"");
+    
     TokenStream* ts = p->m_lex->m_tokenStream;
     OpcodeStream* os = OSCreate();
-    if(!_P_parse_(p,ts,os))
-        return "Parse Eroor";
+    
+    if(parserdebug)
+        printf("\nCreating TokenStream\n");
+    tokenize(p);
+    if(parserdebug)
+        printf("\n\nTokenStream Created\n");
+    
+    if(parserdebug)
+        printf("\nCreating OpcodeStream");
+    if(!__Syntax__Cheker__(p,ts,os))
+        strcpy(output,"Parse Eroooor");
+    strcat(output,"Parse Succesfull");
     
     // convert to bin using opcodeconvertor
     // output = opcodeConvertor(os);
-    return output;
+    
+    
+    if(parserdebug)
+        printf("\nParsing Complete");
 }
 
 void createParserError(Parser* p, Token t)
@@ -1187,9 +1205,10 @@ char* parserError(Parser* p,long* line, long* pos, long* ins)
     {
         *ins = p->m_errorIns;
         *line = tok.lineno;
-        *pos = tok.start;   
+        *pos = tok.start+1;   
         return "Empty File";
     }
+    
     char* ch = malloc(20);
     strcpy(ch,"");
     
@@ -1197,13 +1216,13 @@ char* parserError(Parser* p,long* line, long* pos, long* ins)
     strcat(ch,tok.name);
     *ins = p->m_errorIns;
     *line = tok.lineno;
-    *pos = tok.start;  
+    *pos = tok.start+1;  
     return ch;
 }
 
 int parserHasError(Parser* p)
 {
-    if(p->m_errorToken.end != ENDOFFILE)
-        return 1;
-    return 0;
+    if(p->m_errorToken.kind == INVALID || p->m_errorToken.kind == ENDOFFILE)
+        return 0;
+    return 1;
 }

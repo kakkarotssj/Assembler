@@ -6,18 +6,17 @@
 void help()
 {
     printf("\nAssembler For a 16 Bit ISA");
-    printf("\nUse : assembler path/to/file\n\n");
-//     printf("\nOptions");
-//     printf("\n-d=[value] : sets debug on for value 1");
-//     printf("\n-a         : show Authors");
-//     printf("\n-h         : show Help");
+    printf("\nUse : assembler path/to/input/file path/to/output/file\n\n");
 }
 
 int main(int argc, char **argv) {
     
-    if(argc < 2)
+    if(argc < 3)
     {
-        printf("\nNo File Selected !!!\n");
+        if(argc == 1)
+            printf("\nNo Input File Selected !!!\n");
+        if(argc == 2)
+            printf("\nNo Output File Selected !!!\n");
         help();
         return 0;
     }
@@ -25,35 +24,49 @@ int main(int argc, char **argv) {
     FILE* fptr = fopen(argv[1],"r");
     if(fptr == NULL)
     {
-        printf("\nCannot Read File !!!\n");
+        printf("\nCannot Read From File %s!!!\n",argv[1]);
         help();
         return 0;
     }
     fseek(fptr, 0, SEEK_END);
 	long tempsize = ftell(fptr);
 	fseek(fptr, 0, SEEK_SET);
-	char *tempstr = malloc (sizeof (char) * tempsize);
-	fscanf(fptr,"%s[^\n]",tempstr); //reading content before the null character
-    printf("input = %s\n",tempstr);
-    fscanf(fptr,"%s[^\n]",tempstr); //reading content before the null character
-    printf("input = %s\n",tempstr);
+	char *input = malloc (sizeof (char) * tempsize);
+    strcpy(input,"");
+    fread(input,1,tempsize,fptr);
 	fclose(fptr);
-     Parser* pr = createParser(tempstr);
-     char* output = parse(pr);
-     
+    char* output = NULL;
+    Parser* pr = createParser(input);
+    parseOPCode(pr,output);
+    printf("%s",output);
     if(parserHasError(pr))
     {
         long lineno = 0;
         long pos = 0;
         long ins = 0;
         char* error = parserError(pr,&lineno,&pos,&ins);
-        printf("\nError in Instruction %ld at %ld:%ld \n",ins,lineno,pos);
-        printf("\n%s",error);
+        printf("\nError in Instruction %ld at [%ld:%ld] ",ins,lineno,pos);
+        printf("\n%s\n",error);
         return 0;
     }
-    printf("\n\n");
-    printf("%s",output);
-    printf("\n\n");
+    
+    destroyParser(pr);
+    
+    free(input);
+    
+//     fptr = fopen(argv[2],"w");
+//     if(fptr == NULL)
+//     {
+//         printf("\nCannot Write to File %s!!!\n",argv[2]);
+//         help();
+//         return 0;
+//     }
+//     tempsize = strlen(output);
+//     fwrite(input,1,tempsize,fptr);
+// 	fclose(fptr);
+    
+    free(output);
+    
     
     return 0;
 }
