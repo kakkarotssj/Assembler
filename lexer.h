@@ -16,7 +16,7 @@ typedef struct Lexer
     long m_pos;
 } Lexer;
 
-Lexer* lexerOpen(TokenStream* ts, char* contents);
+Lexer* lexerOpen(TokenStream* ts, char* contents, int debug);
 void lexerClose(Lexer* lex);
 Token lexerNextTokenKind(Lexer* lex);
 
