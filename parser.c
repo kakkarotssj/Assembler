@@ -107,7 +107,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         if(token == ADD)
         {
             if(debugparser())
-                printf("\nChecking Syntax for ADD");
+                printf("\nChecking Syntax for ADD\n");
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING )
                 OSInsert(os,ADD0,TSToken(ts).name);
             else if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && ( isGPRegister(TSLA(ts,3)) || isSPRegister(TSLA(ts,3))))
@@ -170,7 +170,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == CMP)
         {
             if(debugparser())
-                printf("\nChecking Syntax for CMP");
+                printf("\nChecking Syntax for CMP\n");
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING)
                 OSInsert(os,CMP0,TSToken(ts).name);
             else if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && ( isGPRegister(TSLA(ts,3)) || isSPRegister(TSLA(ts,3))))
@@ -234,7 +234,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == DIV)
         {
             if(debugparser())
-                printf("\nChecking Syntax for DIV");
+                printf("\nChecking Syntax for DIV\n");
             
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING)
                 OSInsert(os,DIV0,TSToken(ts).name);
@@ -299,7 +299,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == LDB)
         {
             if(debugparser())
-                printf("\nChecking Syntax for LDB");
+                printf("\nChecking Syntax for LDB\n");
             
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == STRING)
                 OSInsert(os,LDB0,TSToken(ts).name);
@@ -364,7 +364,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == LDW)
         {
             if(debugparser())
-                printf("\nChecking Syntax for LDW");
+                printf("\nChecking Syntax for LDW\n");
             
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == STRING)
                 OSInsert(os,LDW0,TSToken(ts).name);
@@ -429,7 +429,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == MOV)
         {
             if(debugparser())
-                printf("\nChecking Syntax for MOV");
+                printf("\nChecking Syntax for MOV\n");
             
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING)
                 OSInsert(os,MOV0,TSToken(ts).name);
@@ -494,7 +494,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == MUL)
         {
             if(debugparser())
-                printf("\nChecking Syntax for MUL");
+                printf("\nChecking Syntax for MUL\n");
             
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING)
                 OSInsert(os,MUL0,TSToken(ts).name);
@@ -559,7 +559,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == STB)
         {
             if(debugparser())
-                printf("\nChecking Syntax for STB");
+                printf("\nChecking Syntax for STB\n");
             
             if(TSLA(ts,1) == STRING && TSLA(ts,2) == COMMA && ( isGPRegister(TSLA(ts,3)) || isSPRegister(TSLA(ts,3))))
                 OSInsert(os,STB0,TSToken(ts).name);
@@ -676,7 +676,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == STW)
         {
             if(debugparser())
-                printf("\nChecking Syntax for STW");
+                printf("\nChecking Syntax for STW\n");
             
             if(TSLA(ts,1) == STRING && TSLA(ts,2) == COMMA && ( isGPRegister(TSLA(ts,3)) || isSPRegister(TSLA(ts,3))))
                 OSInsert(os,STW0,TSToken(ts).name);
@@ -793,7 +793,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == SUB)
         {
             if(debugparser())
-                printf("\nChecking Syntax for SUB");
+                printf("\nChecking Syntax for SUB\n");
             
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING)
                 OSInsert(os,SUB0,TSToken(ts).name);
@@ -861,7 +861,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == CAL)
         {
             if(debugparser())
-                printf("\nChecking Syntax for CAL");
+                printf("\nChecking Syntax for CAL\n");
             
             OSInsert(os,CAL0,TSToken(ts).name);
             token = TSStep(ts);
@@ -887,7 +887,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == DEC)
         {
             if(debugparser())
-                printf("\nChecking Syntax for DEC");
+                printf("\nChecking Syntax for DEC\n");
             
             OSInsert(os,DEC0,TSToken(ts).name);
             token = TSStep(ts);
@@ -905,7 +905,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         {
             
             if(debugparser())
-                printf("\nChecking Syntax for INC");
+                printf("\nChecking Syntax for INC\n");
             
             OSInsert(os,INC0,TSToken(ts).name);
             token = TSStep(ts);
@@ -922,7 +922,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == JMP)
         {
             if(debugparser())
-                printf("\nChecking Syntax for JMP");
+                printf("\nChecking Syntax for JMP\n");
             
             if(TSLA(ts,1) == STRING)
                 OSInsert(os,JMP0,TSToken(ts).name);
@@ -958,7 +958,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         else if(token == JEQ)
         {
             if(debugparser())
-                printf("\nChecking Syntax for JEQ");
+                printf("\nChecking Syntax for JEQ\n");
             
             if(TSLA(ts,1) == STRING)
                 OSInsert(os,JEQ0,TSToken(ts).name);
@@ -995,7 +995,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         {
             
             if(debugparser())
-                printf("\nChecking Syntax for JNE");
+                printf("\nChecking Syntax for JNE\n");
             
             if(TSLA(ts,1) == STRING)
                 OSInsert(os,JNE0,TSToken(ts).name);
@@ -1032,7 +1032,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         {
             
             if(debugparser())
-                printf("\nChecking Syntax for JLT");
+                printf("\nChecking Syntax for JLT\n");
             
             if(TSLA(ts,1) == STRING)
                 OSInsert(os,JLT0,TSToken(ts).name);
@@ -1069,7 +1069,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         {
             
             if(debugparser())
-                printf("\nChecking Syntax for JGT");
+                printf("\nChecking Syntax for JGT\n");
             
             if(TSLA(ts,1) == STRING)
                 OSInsert(os,JGT0,TSToken(ts).name);
@@ -1106,7 +1106,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         {
             
             if(debugparser())
-                printf("\nChecking Syntax for POP");
+                printf("\nChecking Syntax for POP\n");
             
             if(TSLA(ts,1) == STRING)
                 OSInsert(os,POP0,TSToken(ts).name);
@@ -1143,7 +1143,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         {
             
             if(debugparser())
-                printf("\nChecking Syntax for PSH");
+                printf("\nChecking Syntax for PSH\n");
             
             if(TSLA(ts,1) == STRING)
                 OSInsert(os,PSH0,TSToken(ts).name);
@@ -1183,21 +1183,21 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         {
             
             if(debugparser())
-                printf("\nChecking Syntax for HLT");
+                printf("\nChecking Syntax for HLT\n");
             
             OSInsert(os,HLT0,TSToken(ts).name);
         }
         else if(token == RET)
         {
             if(debugparser())
-                printf("\nChecking Syntax for RET");
+                printf("\nChecking Syntax for RET\n");
             
             OSInsert(os,RET0,TSToken(ts).name);
         }
         else if(token == MSF)
         {
             if(debugparser())
-                printf("\nChecking Syntax for MSF");
+                printf("\nChecking Syntax for MSF\n");
             
             OSInsert(os,MSF0,TSToken(ts).name);
         }

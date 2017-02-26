@@ -17,7 +17,7 @@ void OSInsert(OpcodeStream* os, OpcodeType opc, char* name)
 {
     if(os->m_index < 0)
     {
-        printf("\ninserting first opcode %s",name);
+        printf("%s ",name);
         OpcodeNode* nn = malloc(sizeof(OpcodeNode));
         nn->m_next = NULL;
         nn->m_prev = NULL;
@@ -32,7 +32,7 @@ void OSInsert(OpcodeStream* os, OpcodeType opc, char* name)
     }
     else
     {
-        printf("\ninserting opcode %s",name);
+        printf("%s ",name);
         OpcodeNode* end = os->m_end;
         OpcodeNode* nn = malloc(sizeof(OpcodeNode));
         nn->m_next = NULL;
