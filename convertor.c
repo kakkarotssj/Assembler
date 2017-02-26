@@ -11,11 +11,6 @@ int debugConvertor()
 
 char *binaryOfOpcode(OpcodeStream *OS)
 {
-
-	if(debugConvertor())
-		printf("\nSearching for binary equivalent for Token %s ",OS->m_node->m_opcode->name);
-
-
 	switch(OS->m_node->m_opcode->type)
 	{
 		case MOV0:
@@ -201,14 +196,12 @@ char *binaryOfOpcode(OpcodeStream *OS)
 	}
 }   
 
-void *convertOPCodes(OpcodeStream *OS,char* output, int debug)
+char* convertOPCodes(OpcodeStream *OS, int debug)
 {
     convertordebug = debug;
-	if(debugConvertor())
-		printf("\n\n Generating opcode \n");
     
 	int len=0,allot=100;
-	output=(char*)malloc(allot);
+	char* output=(char*)malloc(allot);
     strcpy(output,"");
 	while(OSHasNext(OS))
 	{
@@ -221,7 +214,6 @@ void *convertOPCodes(OpcodeStream *OS,char* output, int debug)
 		strcat(output,binaryOfOpcode(OS));
 		OSStep(OS);
 	}
-	if(debugConvertor())
-        printf("\n\n%s\n\n",output);
+	return output;
 }
 

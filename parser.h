@@ -15,7 +15,7 @@ typedef struct Parser
 } Parser;
 
 Parser* createParser(char* contents,int debug);
-void parseOPCode(Parser* p,char* output);
+char* parseOPCode(Parser* p);
 char* parserError(Parser* p,long* line, long* pos,long* ins);
 void tokenize(Parser* p);
 void createParserError(Parser* p, Token t);

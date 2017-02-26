@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
     char* output = NULL;
     
     Parser* pr = createParser(input,debug);
-    parseOPCode(pr,output);
+    output = parseOPCode(pr);
     
     if(parserContainsError(pr))
     {
@@ -70,16 +70,16 @@ int main(int argc, char **argv) {
     
     
     
-//     fptr = fopen(argv[2],"w");
-//     if(fptr == NULL)
-//     {
-//         printf("\nCannot Write to File %s!!!\n",argv[2]);
-//         help();
-//         return 0;
-//     }
-//     tempsize = strlen(output);
-//     fwrite(input,1,tempsize,fptr);
-// 	fclose(fptr);
+    fptr = fopen(argv[2],"w");
+    if(fptr == NULL)
+    {
+        printf("\nCannot Write to File %s!!!\n",argv[2]);
+        help();
+        return 0;
+    }
+    tempsize = strlen(output);
+    fwrite(output,1,tempsize,fptr);
+	fclose(fptr);
        
     free(input);
     free(output);

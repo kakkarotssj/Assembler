@@ -3,7 +3,7 @@
 
 #include "opcodestream.h"
 
-char *binaryOfOpcode(OpcodeStream *OS);
-void *convertOPCodes(OpcodeStream *OS,char* output, int debug);
+char* binaryOfOpcode(OpcodeStream *OS);
+char* convertOPCodes(OpcodeStream *OS, int debug);
 
 #endif

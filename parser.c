@@ -106,7 +106,6 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         // dyadic instructions
         if(token == ADD)
         {
-            printf("Add = %d",TSLA(ts,0));
             if(debugparser())
                 printf("\nChecking Syntax for ADD");
             if(isGPRegister(TSLA(ts,1)) && TSLA(ts,2) == COMMA && TSLA(ts,3) == HASH && TSLA(ts,4) == STRING )
@@ -1213,7 +1212,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
         token = TSStep(ts);
     }
     if(debugparser())
-        printf("\nSyntax Checked\n");
+        printf("\n\nSyntax Checked\n");
     return 1;
 }
 
@@ -1271,32 +1270,33 @@ void tokenize(Parser* p)
     
 }
 
-void parseOPCode(Parser* p, char* output)
+char* parseOPCode(Parser* p)
 {
     if(debugparser())
-        printf("\n******** Parsing Start ********");
+        printf("\n\n******** Parsing Start ********");
     
     TokenStream* ts = p->m_lex->m_tokenStream;
     OpcodeStream* os = OSCreate();
     
     if(debugparser())
-        printf("\n******** Creating Tokens ********\n");
+        printf("\n\n******** Creating Tokens ********\n");
     tokenize(p);
     
     
     if(debugparser())
-        printf("\n******** Creating OpcodeStream ********");
+        printf("\n\n******** Creating OpcodeStream ********");
     if(!__Syntax__Cheker__(p,ts,os))
     {
-        output = NULL;
-        return;
+        return "";
     }
     
-    printf("\n******** Converting OpcodeType to BINARY ********");
-    convertOPCodes(os,output,debugparser());
+    printf("\n\n******** Converting OpcodeType to BINARY ********");
+    char* output = convertOPCodes(os,debugparser());
     
     if(debugparser())
-        printf("\n******** Parsing Complete ********\n");
+        printf("\n\n******** Parsing Complete ********\n");
+    
+    return output;
 }
 
 void createParserError(Parser* p, Token t)
