@@ -1,0 +1,14 @@
+
+STB @R5, R6
+MOV R1, #1
+ADD R1, #1
+LDB R2, 100
+SUB R2, #1
+MUL R1, #2
+
+CMP R1, R2
+JNE 6
+
+ 
+HLT
+
