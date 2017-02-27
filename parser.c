@@ -85,7 +85,7 @@ int isInteger(char* arr)
     return 1;
 }
 
-int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
+int __Syntax__Checker__(Parser* p,TokenStream* ts,OpcodeStream* os)
 {
     if (TSSize(ts) == 0)
     {
@@ -1285,7 +1285,7 @@ char* parseOPCode(Parser* p)
     
     if(debugparser())
         printf("\n\n******** Creating OpcodeStream ********\n");
-    if(!__Syntax__Cheker__(p,ts,os))
+    if(!__Syntax__Checker__(p,ts,os))
     {
         return "";
     }

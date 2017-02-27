@@ -60,7 +60,7 @@ void OSStep(OpcodeStream* os)
     os->m_node = os->m_node->m_next;
 }
 
-int OSHasNext(OpcodeStream* os)
+int OSNodeExists(OpcodeStream* os)
 {
     if(os->m_node != NULL)
         return 1;

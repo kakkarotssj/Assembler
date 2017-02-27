@@ -97,7 +97,7 @@ typedef struct OpcodeStream
 OpcodeStream* OSCreate();
 void OSInsert(OpcodeStream* os, OpcodeType opt, char* name);
 void OSStep(OpcodeStream* os);
-int OSHasNext(OpcodeStream* os);
+int OSNodeExists(OpcodeStream* os);
 void OSClear(OpcodeStream* os);
 void OSDestroy(OpcodeStream* os);
 

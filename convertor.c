@@ -236,7 +236,7 @@ char* convertOPCodes(OpcodeStream *OS, int debug)
     int insType = 0;
     int remainingOperands = 0;
     char bop[17];
-	while(OSHasNext(OS))
+	while(OSNodeExists(OS))
 	{
 		len=strlen(output)+len;
 		if(len+16>allot)
