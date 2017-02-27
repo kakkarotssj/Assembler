@@ -51,7 +51,7 @@ Token lexerNextTokenKind(Lexer* lex)
     if(*it == '\0')
     {
         t.kind = ENDOFFILE;
-        t.start = lex->m_currPos;
+        t.start = lex->m_pos;
         t.end = t.start;
         t.lineno = lex->m_line;
         strcpy(t.name,"EOF");
@@ -93,7 +93,7 @@ Token lexerNextTokenKind(Lexer* lex)
     if(*it == '\0')
     {
         t.kind = ENDOFFILE;
-        t.start = lex->m_currPos;
+        t.start = lex->m_pos;
         t.end = t.start;
         t.lineno = lex->m_line;
         if(debuglexer())

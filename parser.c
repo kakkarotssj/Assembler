@@ -1202,7 +1202,7 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
             OSInsert(os,MSF0,TSToken(ts).name);
         }
         
-        else
+        else if(token != ENDOFFILE)
         {
             p->m_errorIns = ins;
             createParserError(p,TSToken(ts));
@@ -1227,7 +1227,7 @@ Parser* createParser(char* contents, int debug)
     p->m_lex = lex;
     
     Token t;
-    t.kind = ENDOFFILE;
+    t.kind = INVALID;
     t.lineno = 0;
     t.start = 0;
     p->m_errorToken = t;
@@ -1309,12 +1309,12 @@ char* parserError(Parser* p,long* line, long* pos, long* ins)
 {
     Token tok = p->m_errorToken;
     
-    if(tok.end == ENDOFFILE || tok.end == INVALID)
+    if(tok.kind == ENDOFFILE)
     {
         *ins = p->m_errorIns;
         *line = tok.lineno;
-        *pos = tok.start+1;   
-        return "Empty File";
+        *pos = tok.start;
+        return "Unexpected EOF";
     }
     
     char* ch = malloc(20);
@@ -1330,7 +1330,7 @@ char* parserError(Parser* p,long* line, long* pos, long* ins)
 
 int parserContainsError(Parser* p)
 {
-    if(p->m_errorToken.kind == INVALID || p->m_errorToken.kind == ENDOFFILE)
+    if(p->m_errorToken.kind == INVALID)
         return 0;
     return 1;
 }
