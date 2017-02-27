@@ -1276,7 +1276,7 @@ char* parseOPCode(Parser* p)
         printf("\n\n******** Parsing Start ********");
     
     TokenStream* ts = p->m_lex->m_tokenStream;
-    OpcodeStream* os = OSCreate();
+    OpcodeStream* os = OSCreate(debugparser());
     
     if(debugparser())
         printf("\n\n******** Creating Tokens ********\n");
@@ -1290,7 +1290,8 @@ char* parseOPCode(Parser* p)
         return "";
     }
     
-    printf("\n\n******** Converting OpcodeType to BINARY ********");
+    if(debugparser())
+        printf("\n\n******** Converting OpcodeType to BINARY ********");
     char* output = convertOPCodes(os,debugparser());
     
     if(debugparser())

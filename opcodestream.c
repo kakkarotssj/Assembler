@@ -4,20 +4,27 @@
 #include <stdlib.h>
 #include <string.h>
 
-OpcodeStream* OSCreate()
+int opcodedebug = 0;
+int debugopcode()
 {
+    return opcodedebug;
+}
+
+OpcodeStream* OSCreate(int debug)
+{
+    opcodedebug = debug;
     OpcodeStream * os = malloc(sizeof(OpcodeStream));
     os->m_index = -1;
     os->m_node = NULL;
     return os;
 }
 
-
 void OSInsert(OpcodeStream* os, OpcodeType opc, char* name)
 {
     if(os->m_index < 0)
     {
-        printf("%s ",name);
+        if(debugopcode())
+            printf("%s ",name);
         OpcodeNode* nn = malloc(sizeof(OpcodeNode));
         nn->m_next = NULL;
         nn->m_prev = NULL;
@@ -32,7 +39,8 @@ void OSInsert(OpcodeStream* os, OpcodeType opc, char* name)
     }
     else
     {
-        printf("%s ",name);
+        if(debugopcode())
+            printf("%s ",name);
         OpcodeNode* end = os->m_end;
         OpcodeNode* nn = malloc(sizeof(OpcodeNode));
         nn->m_next = NULL;
