@@ -1273,7 +1273,7 @@ void tokenize(Parser* p)
 char* parseOPCode(Parser* p)
 {
     if(debugparser())
-        printf("\n\n******** Parsing Start ********");
+        printf("\n\n******** Parsing Start ********\n");
     
     TokenStream* ts = p->m_lex->m_tokenStream;
     OpcodeStream* os = OSCreate(debugparser());
@@ -1284,14 +1284,14 @@ char* parseOPCode(Parser* p)
     
     
     if(debugparser())
-        printf("\n\n******** Creating OpcodeStream ********");
+        printf("\n\n******** Creating OpcodeStream ********\n");
     if(!__Syntax__Cheker__(p,ts,os))
     {
         return "";
     }
     
     if(debugparser())
-        printf("\n\n******** Converting OpcodeType to BINARY ********");
+        printf("\n\n******** Converting Instructions to BINARY ********\n");
     char* output = convertOPCodes(os,debugparser());
     
     if(debugparser())

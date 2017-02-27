@@ -9,6 +9,13 @@ int debugConvertor()
     return convertordebug;
 }
 
+char* integerToBinary(char* inp)
+{
+    int len = strlen(inp);
+    
+    return "101010";
+}
+
 char *binaryOfOpcode(OpcodeStream *OS)
 {
 	switch(OS->m_node->m_opcode->type)
@@ -192,7 +199,7 @@ char *binaryOfOpcode(OpcodeStream *OS)
 			return "00010";
             
         case INTEGER:
-            return "01010";
+            return integerToBinary(OS->m_node->m_opcode->name);
 	}
 }   
 
@@ -203,6 +210,10 @@ char* convertOPCodes(OpcodeStream *OS, int debug)
 	int len=0,allot=100;
 	char* output=(char*)malloc(allot);
     strcpy(output,"");
+    char tempOut[17] = "";
+    int insType = 0;
+    int remainingOperands = 0;
+    char bop[17];
 	while(OSHasNext(OS))
 	{
 		len=strlen(output)+len;
@@ -211,8 +222,70 @@ char* convertOPCodes(OpcodeStream *OS, int debug)
 			allot=allot*2;
 			output=realloc(output,allot);
 		}
-		strcat(output,binaryOfOpcode(OS));
-		OSStep(OS);
+		strcpy(bop,binaryOfOpcode(OS));
+		strcat(tempOut,bop);
+        if(remainingOperands==0)
+        {
+            if(strlen(bop) == 5)
+            {
+                insType = 0;
+                remainingOperands = 2;
+            }
+            else if(strlen(bop) == 10)
+            {
+                insType = 1;
+                remainingOperands = 1;
+            }
+            else
+            {
+                insType = 2;
+                remainingOperands = 0;
+                int len = strlen(tempOut);
+                int i = 16-len;
+                for(;i>0;i--)
+                    strcat(tempOut,"0");
+                strcat(output,tempOut);
+                
+                if(debugConvertor())
+                    printf("\n%s",tempOut);
+                
+                strcpy(tempOut,"");
+            }
+        }
+        else
+        {
+            if(insType == 1)
+            {
+                remainingOperands--;
+                int len = strlen(tempOut);
+                int i = 16-len;
+                for(;i>0;i--)
+                    strcat(tempOut,"0");
+                
+                strcat(output,tempOut);
+                if(debugConvertor())
+                    printf("\n%s",tempOut);
+                strcpy(tempOut,"");
+                
+            }
+            else if(insType == 0)
+            {
+                remainingOperands--;
+                if(remainingOperands == 0)
+                {
+                    int len = strlen(tempOut);
+                    int i = 16-len;
+                    for(;i>0;i--)
+                        strcat(tempOut,"0");
+                    strcat(output,tempOut);
+                    if(debugConvertor())
+                        printf("\n%s",tempOut);
+                    strcpy(tempOut,"");
+                }
+            }
+        }
+        
+        OSStep(OS);
 	}
 	return output;
 }
