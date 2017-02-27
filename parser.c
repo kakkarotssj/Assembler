@@ -572,8 +572,8 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
             {
                 if(isInteger(TSToken(ts).name))
                 {
-                    token = TSStep(ts);
                     OSInsert(os,INTEGER,TSToken(ts).name);
+                    token = TSStep(ts);
                     if(token == COMMA)
                     {
                         token = TSStep(ts);
@@ -689,8 +689,8 @@ int __Syntax__Cheker__(Parser* p,TokenStream* ts,OpcodeStream* os)
             {
                 if(isInteger(TSToken(ts).name))
                 {
-                    token = TSStep(ts);
                     OSInsert(os,INTEGER,TSToken(ts).name);
+                    token = TSStep(ts);
                     if(token == COMMA)
                     {
                         token = TSStep(ts);
@@ -1232,7 +1232,7 @@ Parser* createParser(char* contents, int debug)
     t.start = 0;
     p->m_errorToken = t;
     
-    p->m_os = OSCreate();
+    p->m_os = OSCreate(debug);
     return p;
 }
 
@@ -1276,7 +1276,7 @@ char* parseOPCode(Parser* p)
         printf("\n\n******** Parsing Start ********\n");
     
     TokenStream* ts = p->m_lex->m_tokenStream;
-    OpcodeStream* os = OSCreate(debugparser());
+    OpcodeStream* os = p->m_os;
     
     if(debugparser())
         printf("\n\n******** Creating Tokens ********\n");
