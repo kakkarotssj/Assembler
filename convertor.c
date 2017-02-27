@@ -11,9 +11,31 @@ int debugConvertor()
 
 char* integerToBinary(char* inp)
 {
-    int len = strlen(inp);
-    
-    return "101010";
+    int n=atoi(inp);
+	int remainder,binary = 0, i = 1,len,j;
+	char output[7],finalOutput[7]="000000",*returnValue;
+	returnValue=(char*)malloc(7);
+	if(n>63)
+		strcpy(finalOutput,"111111");
+	else
+	{
+		while(n != 0) 
+		{
+			remainder = n%2;
+			n = n/2;
+			binary= binary + (remainder*i);
+			i = i*10;
+		}
+		sprintf(output, "%d", binary);;
+		len=strlen(output);
+		for(j=0;j<len;j++)
+		{
+			finalOutput[6-j-1]=output[len-j-1];
+		}
+
+	}
+	strcpy(returnValue,finalOutput);
+	return returnValue;
 }
 
 char *binaryOfOpcode(OpcodeStream *OS)
