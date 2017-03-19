@@ -100,7 +100,7 @@ char *binaryOfOpcode(OpcodeStream *OS)
 			return  "10010";
 
 		case CMP1:
-			return "10001" ;
+			return "10011" ;
 
 		case CAL0:
 			return "1111100000" ;
